@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flyer Apresiasi Hafalan</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .flyer-preview {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 3px solid #2e7d32;
+            border-radius: 10px;
+            padding: 20px 15px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .flyer-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                #2e7d32,
+                #2e7d32 10px,
+                #4caf50 10px,
+                #4caf50 20px
+            );
+        }
+
+        .flyer-preview::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                #2e7d32,
+                #2e7d32 10px,
+                #4caf50 10px,
+                #4caf50 20px
+            );
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .school-name {
+            text-align: center;
+            color: #1b5e20;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .school-address {
+            text-align: center;
+            color: #2e7d32;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .appreciation-text {
+            text-align: center;
+            color: #1b5e20;
+            font-size: 14px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .student-info {
+            background: white;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .student-name {
+            color: #1b5e20;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .student-class {
+            color: #2e7d32;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .hafalan-text {
+            color: #1b5e20;
+            font-size: 14px;
+            margin-top: 8px;
+            line-height: 1.3;
+        }
+
+        .motivation-text {
+            text-align: center;
+            color: #2e7d32;
+            font-size: 12px;
+            font-style: italic;
+            margin: 12px 0;
+            line-height: 1.4;
+        }
+
+        .teacher-name {
+            text-align: center;
+            color: #1b5e20;
+            font-size: 13px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-download:active {
+            transform: scale(0.98);
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .btn-bg {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-upload {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            border-color: #f57c00;
+        }
+
+        .color-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .color-btn {
+            height: 50px;
+            border: 3px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-btn:active {
+            transform: scale(0.95);
+        }
+
+        .color-btn.selected {
+            border-color: #2e7d32;
+            box-shadow: 0 0 10px rgba(46, 125, 50, 0.5);
+        }
+
+        #uploadBg {
+            display: none;
+        }
+
+        .islamic-pattern {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0.1;
+        }
+
+        .pattern-1 {
+            top: 10px;
+            left: 10px;
+        }
+
+        .pattern-2 {
+            top: 10px;
+            right: 10px;
+        }
+
+        .pattern-3 {
+            bottom: 40px;
+            left: 10px;
+        }
+
+        .pattern-4 {
+            bottom: 40px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="flyerPreview" class="flyer-preview">
+            <svg class="islamic-pattern pattern-1" viewBox="0 0 100 100">
+                <path d="M50,10 L90,50 L50,90 L10,50 Z" fill="#2e7d32"/>
+                <circle cx="50" cy="50" r="20" fill="white"/>
+            </svg>
+            <svg class="islamic-pattern pattern-2" viewBox="0 0 100 100">
+                <path d="M50,10 L90,50 L50,90 L10,50 Z" fill="#2e7d32"/>
+                <circle cx="50" cy="50" r="20" fill="white"/>
+            </svg>
+            <svg class="islamic-pattern pattern-3" viewBox="0 0 100 100">
+                <path d="M50,10 L90,50 L50,90 L10,50 Z" fill="#2e7d32"/>
+                <circle cx="50" cy="50" r="20" fill="white"/>
+            </svg>
+            <svg class="islamic-pattern pattern-4" viewBox="0 0 100 100">
+                <path d="M50,10 L90,50 L50,90 L10,50 Z" fill="#2e7d32"/>
+                <circle cx="50" cy="50" r="20" fill="white"/>
+            </svg>
+
+            <img src="https://iili.io/fXljUa1.png" alt="Logo" class="logo">
+            <div class="school-name">MIS HIDAYATUL MUBTADIIN</div>
+            <div class="school-address">Undaan Kidul Kudus</div>
+            <div class="appreciation-text">
+                mengucapkan selamat dan memberikan apresiasi kepada :
+            </div>
+            <div class="student-info">
+                <div class="student-name" id="displayNama">Nama Siswa</div>
+                <div class="student-class" id="displayKelas">Kelas</div>
+                <div class="hafalan-text">
+                    yang telah menyelesaikan hafalan<br>
+                    <strong id="displaySurat">Nama Surat</strong>
+                </div>
+            </div>
+            <div class="motivation-text">
+                Semoga ilmunya bermanfaat dunia akhirat dan menjadi motivasi bagi teman-teman yang lainnya.
+            </div>
+            <div class="teacher-name">Guru Pembimbing: M. Yusni</div>
+        </div>
+
+        <div class="form-group">
+            <label for="namaSiswa">Nama Siswa:</label>
+            <input type="text" id="namaSiswa" placeholder="Masukkan nama siswa">
+        </div>
+
+        <div class="form-group">
+            <label>Background Flyer:</label>
+            <div class="color-options">
+                <div class="color-btn selected" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)" onclick="changeBg('linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)', this)"></div>
+                <div class="color-btn" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%)" onclick="changeBg('linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%)', this)"></div>
+                <div class="color-btn" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)" onclick="changeBg('linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)', this)"></div>
+                <div class="color-btn" style="background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%)" onclick="changeBg('linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%)', this)"></div>
+                <div class="color-btn" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%)" onclick="changeBg('linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%)', this)"></div>
+                <div class="color-btn" style="background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%)" onclick="changeBg('linear-gradient(135deg, #fff9c4 0%, #fff59d 100%)', this)"></div>
+            </div>
+            <div class="btn-group">
+                <button class="btn-bg btn-upload" onclick="document.getElementById('uploadBg').click()">
+                    📤 Upload Background
+                </button>
+                <button class="btn-bg" style="background: #f5f5f5; color: #333;" onclick="resetBg()">
+                    🔄 Reset
+                </button>
+            </div>
+            <input type="file" id="uploadBg" accept="image/*" onchange="uploadBackground(event)">
+        </div>
+
+        <div class="form-group">
+            <label for="kelas">Kelas:</label>
+            <select id="kelas">
+                <option value="">Pilih Kelas</option>
+                <option value="4A">4A</option>
+                <option value="4B">4B</option>
+                <option value="5A">5A</option>
+                <option value="5B">5B</option>
+                <option value="6A">6A</option>
+                <option value="6B">6B</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="surat">Nama Surat:</label>
+            <input type="text" id="surat" placeholder="Contoh: Al-Fatihah, An-Nas, Al-Ikhlas">
+        </div>
+
+        <button class="btn-download" onclick="downloadFlyer()">
+            📥 Download Flyer (PNG)
+        </button>
+
+        <button class="btn-download" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); margin-top: 8px;" onclick="shareToWhatsApp()">
+            📱 Share ke WhatsApp
+        </button>
+    </div>
+
+    <script>
+        const namaSiswa = document.getElementById('namaSiswa');
+        const kelas = document.getElementById('kelas');
+        const surat = document.getElementById('surat');
+        const displayNama = document.getElementById('displayNama');
+        const displayKelas = document.getElementById('displayKelas');
+        const displaySurat = document.getElementById('displaySurat');
+        const flyerPreview = document.getElementById('flyerPreview');
+        
+        let currentBg = 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)';
+
+        namaSiswa.addEventListener('input', (e) => {
+            displayNama.textContent = e.target.value || 'Nama Siswa';
+        });
+
+        kelas.addEventListener('change', (e) => {
+            displayKelas.textContent = e.target.value ? `Kelas ${e.target.value}` : 'Kelas';
+        });
+
+        surat.addEventListener('input', (e) => {
+            displaySurat.textContent = e.target.value || 'Nama Surat';
+        });
+
+        function changeBg(gradient, element) {
+            currentBg = gradient;
+            flyerPreview.style.background = gradient;
+            flyerPreview.style.backgroundSize = 'cover';
+            
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function uploadBackground(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentBg = `url(${e.target.result})`;
+                    flyerPreview.style.background = currentBg;
+                    flyerPreview.style.backgroundSize = 'cover';
+                    flyerPreview.style.backgroundPosition = 'center';
+                    
+                    document.querySelectorAll('.color-btn').forEach(btn => {
+                        btn.classList.remove('selected');
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function resetBg() {
+            currentBg = 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)';
+            flyerPreview.style.background = currentBg;
+            flyerPreview.style.backgroundSize = 'cover';
+            
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.querySelector('.color-btn').classList.add('selected');
+        }
+
+        function downloadFlyer() {
+            const nama = namaSiswa.value.trim();
+            const kelasVal = kelas.value;
+            const suratVal = surat.value.trim();
+
+            if (!nama || !kelasVal || !suratVal) {
+                alert('Mohon lengkapi semua data terlebih dahulu!');
+                return;
+            }
+
+            const flyerElement = document.getElementById('flyerPreview');
+            
+            html2canvas(flyerElement, {
+                scale: 3,
+                backgroundColor: null,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Flyer_Hafalan_${nama.replace(/\s+/g, '_')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function shareToWhatsApp() {
+            const nama = namaSiswa.value.trim();
+            const kelasVal = kelas.value;
+            const suratVal = surat.value.trim();
+
+            if (!nama || !kelasVal || !suratVal) {
+                alert('Mohon lengkapi semua data terlebih dahulu!');
+                return;
+            }
+
+            const flyerElement = document.getElementById('flyerPreview');
+            
+            html2canvas(flyerElement, {
+                scale: 3,
+                backgroundColor: null,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                canvas.toBlob(blob => {
+                    const file = new File([blob], `Flyer_Hafalan_${nama.replace(/\s+/g, '_')}.png`, { type: 'image/png' });
+                    
+                    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                        navigator.share({
+                            files: [file],
+                            title: 'Flyer Apresiasi Hafalan',
+                            text: `Alhamdulillah, ${nama} (Kelas ${kelasVal}) telah menyelesaikan hafalan ${suratVal}. Semoga bermanfaat dunia akhirat. 🤲📿`
+                        }).catch(err => {
+                            if (err.name !== 'AbortError') {
+                                fallbackWhatsAppShare(nama, kelasVal, suratVal);
+                            }
+                        });
+                    } else {
+                        fallbackWhatsAppShare(nama, kelasVal, suratVal);
+                    }
+                }, 'image/png');
+            });
+        }
+
+        function fallbackWhatsAppShare(nama, kelasVal, suratVal) {
+            const text = `Alhamdulillah, ${nama} (Kelas ${kelasVal}) telah menyelesaikan hafalan ${suratVal}. Semoga bermanfaat dunia akhirat. 🤲📿
+
+*MIS HIDAYATUL MUBTADIIN*
+Undaan Kidul Kudus
+
+Untuk melihat sertifikat, silakan download flyer terlebih dahulu.`;
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            alert('📥 Silakan download flyer terlebih dahulu, lalu kirim manual ke WhatsApp bersama dengan pesan yang sudah disiapkan.');
+        }
+    </script>
+</body>
+</html>
